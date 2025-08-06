@@ -1,0 +1,14 @@
+ - hosts: appservers
+   gather_facts: yes
+
+   vars:
+    name: pradeep
+
+   tasks:
+    - name: Print Sample Message
+      become_user: root
+      shell: |
+          echo "This is Pradeep Katuri"
+      register: test_message
+
+    - debug: var=test_message.stdout_lines
