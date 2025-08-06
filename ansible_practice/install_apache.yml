@@ -1,0 +1,13 @@
+- hosts: appservers
+  become: true
+
+  tasks:
+   - name: Intalling Apache2
+      apt:
+       name: Apache2
+       state: present
+   - name: Start Apache2
+      service: 
+        name: Apache2
+        state: started
+        enabled: yes       
