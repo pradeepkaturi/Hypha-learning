@@ -12,7 +12,7 @@ jobs:
       run: |
         pwd
         mkdir git-code
-        cd git-code
+        cd /home/runner/work/Hypha-learning/Hypha-learning/git-code
         pwd
         git clone https://github.com/pradeepkaturi/Hypha-learning.git
         ls -ltr
@@ -21,6 +21,7 @@ jobs:
 
     - name: Execute Deployment Dependencies and Deploy Webpage
       run: |
+        cd /home/runner/work/Hypha-learning/Hypha-learning/git-code
         ssh -i "lab_server_in_aws.pem" ec2-user@ec2-54-158-26-65.compute-1.amazonaws.com << 'EOF'
           chmod +x /home/ec2-user/git-code/deploy_vpc_webpage.sh
           # Execute the script
