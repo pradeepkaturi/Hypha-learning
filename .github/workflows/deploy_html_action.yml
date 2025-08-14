@@ -23,9 +23,9 @@ jobs:
       run: |
         cd Hypha-Learning
         ssh -o StrictHostKeyChecking=no -i "lab_server_in_aws.pem" ec2-user@ec2-54-158-26-65.compute-1.amazonaws.com << 'EOF'
-          sudo yum install git -y
-          git --version
-          git clone https://github.com/pradeepkaturi/Hypha-Learning.git
+          # sudo yum install git -y
+          # git --version
+          # git clone https://github.com/pradeepkaturi/Hypha-Learning.git
           cd Hypha-Learning
           chmod +x deploy_vpc_webpage.sh
           # Execute the script
