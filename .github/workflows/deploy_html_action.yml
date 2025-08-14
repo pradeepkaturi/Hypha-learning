@@ -13,17 +13,17 @@ jobs:
         git clone https://github.com/pradeepkaturi/Hypha-learning.git
         ls -ltr
         pwd
-        cd /home/runner/Hypha-learning/Hypha-learning
+        cd Hypha-learning
         pwd
         chmod 400 lab_server_in_aws.pem
         ls -ltr
 
     - name: Execute Deployment Dependencies and Deploy Webpage
       run: |
-        cd /home/runner/Hypha-learning/Hypha-learning
+        cd Hypha-learning
         ssh -i "lab_server_in_aws.pem" ec2-user@ec2-54-158-26-65.compute-1.amazonaws.com << 'EOF'
-          chmod +x /home/runner/Hypha-learning/Hypha-learning/deploy_vpc_webpage.sh
+          chmod +x deploy_vpc_webpage.sh
           # Execute the script
-          sh /home/runner/Hypha-learning/Hypha-learning/deploy_vpc_webpage.sh
+          sh deploy_vpc_webpage.sh
           ls
           EOF
