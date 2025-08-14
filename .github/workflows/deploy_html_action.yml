@@ -1,7 +1,8 @@
 name: Deploying Webpage Workflow
 
 on:
-  workflow_dispatch: # Trigger manually
+  push:
+    branches: [ main ]
 
 jobs:
   build:
@@ -10,24 +11,23 @@ jobs:
     steps:
     - name: Clone Git Hub Repo
       run: |
-        git clone https://github.com/pradeepkaturi/Hypha-learning.git
+        git clone https://github.com/pradeepkaturi/Hypha-Learning.git
         ls -ltr
         pwd
-        cd Hypha-learning
+        cd Hypha-Learning
         pwd
         chmod 400 lab_server_in_aws.pem
         ls -ltr
 
     - name: Execute Deployment Dependencies and Deploy Webpage
       run: |
-        cd Hypha-learning
+        cd Hypha-Learning
         ssh -o StrictHostKeyChecking=no -i "lab_server_in_aws.pem" ec2-user@ec2-54-158-26-65.compute-1.amazonaws.com << 'EOF'
           sudo yum install git -y
           git --version
-          git clone https://github.com/pradeepkaturi/Hypha-learning.git
-          cd Hypha-learning
+          git clone https://github.com/pradeepkaturi/Hypha-Learning.git
+          cd Hypha-Learning
           chmod +x deploy_vpc_webpage.sh
           # Execute the script
-          sh deploy_vpc_webpage.sh
-          ls
+          sh deploy_vpc_webpage.sh > 
           EOF
