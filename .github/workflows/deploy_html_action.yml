@@ -21,7 +21,7 @@ jobs:
     - name: Execute Deployment Dependencies and Deploy Webpage
       run: |
         cd Hypha-learning
-        ssh -i "lab_server_in_aws.pem" ec2-user@ec2-54-158-26-65.compute-1.amazonaws.com << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i "lab_server_in_aws.pem" ec2-user@ec2-54-158-26-65.compute-1.amazonaws.com << 'EOF'
           chmod +x deploy_vpc_webpage.sh
           # Execute the script
           sh deploy_vpc_webpage.sh
