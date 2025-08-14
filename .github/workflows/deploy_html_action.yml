@@ -29,5 +29,6 @@ jobs:
           cd Hypha-Learning
           chmod +x deploy_vpc_webpage.sh
           # Execute the script
-          sh deploy_vpc_webpage.sh > 
+          sh deploy_vpc_webpage.sh
+          echo "Exeuction Completed Successfully !!!" 
           EOF
