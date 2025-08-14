@@ -1,25 +1,29 @@
-name: Basic CI Workflow
+name: Deploying Webpage Workflow
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch: # Trigger manually
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Clone Git Hub Repo
+      run: |
+        pwd
+        mkdir git-code
+        cd git-code
+        pwd
+        git clone https://github.com/pradeepkaturi/Hypha-learning.git
+        ls -ltr
+        chmod 400 lab_server_in_aws.pem
+        ls -ltr
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Run tests
-      run: npm test
+    - name: Execute Deployment Dependencies and Deploy Webpage
+      run: |
+        ssh -i "lab_server_in_aws.pem" ec2-user@ec2-54-158-26-65.compute-1.amazonaws.com << 'EOF'
+          chmod +x /home/ec2-user/git-code/deploy_vpc_webpage.sh
+          # Execute the script
+          sh /home/ec2-user/git-code/deploy_vpc_webpage.sh
+          ls
+          EOF
