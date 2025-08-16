@@ -1,0 +1,51 @@
+name: Build and Deploy to EC2
+
+on:
+  push:
+    branches:
+      - java-code
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checkout code from dev branch
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        ref: java-code
+
+    # 2. Set up Java 17
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    # 3. Make Gradle wrapper executable
+    - name: Grant execute permission for Gradle
+      run: chmod +x gradlew
+
+    # 4. Build project
+    - name: Build with Gradle
+      run: ./gradlew clean build -x test
+
+    # 5. Deploy to EC2
+    - name: Deploy to EC2
+      env:
+        EC2_HOST: 3.110.123.141
+        EC2_USER: EC2-USER 
+        EC2_KEY: ${{ secrets.EC2_KEY }}
+      run: |
+        chmod 400 ec2-key.pem
+
+        # Copy JAR file to EC2
+        scp -o StrictHostKeyChecking=no -i ec2-key.pem build/libs/*.jar EC2-USER@3.110.123.141:/home/$EC2_USER/my-java-app.jar
+
+        # Start app on EC2
+        ssh -o StrictHostKeyChecking=no -i ec2-key.pem $EC2_USER@$EC2_HOST "
+          nohup java -jar /home/$EC2_USER/my-java-app.jar > app.log 2>&1 &
+          sleep 5
+          tail -n 20 app.log
+        "
