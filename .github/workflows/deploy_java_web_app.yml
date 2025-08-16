@@ -23,9 +23,15 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
+    # 3. Make Gradle wrapper executable
+    - name: Grant execute permission for Gradle
+      run: chmod +x gradle
+
     # 4. Build project
     - name: Build with Gradle
-      run: gradle clean build -x test
+      run: |
+        cd java_demo_app
+        gradle clean build -x test
 
     # 5. Deploy to EC2
     - name: Deploy to EC2
@@ -34,7 +40,7 @@ jobs:
         EC2_USER: EC2-USER
       run: |
         chmod 400 ec2-key.pem
-
+        cd java_demo_app
         # Copy JAR file to EC2
         scp -o StrictHostKeyChecking=no -i ec2-key.pem build/libs/*.jar EC2-USER@EC2_HOST:/home/$EC2_USER/my-java-app.jar
 
