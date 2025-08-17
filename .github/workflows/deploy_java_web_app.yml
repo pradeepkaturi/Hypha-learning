@@ -43,7 +43,11 @@ jobs:
         sudo chmod +x /etc/profile.d/gradle.sh
         source /etc/profile.d/gradle.sh
         gradle -v
-        cd /home/ec2-user/Hypha-learning/java_demo_app/build/libs
+        pwd
+        cd /home/ec2-user/Hypha-learning/java_demo_app
+        gradle clean build
+        ls -ltr
+        cd build/libs
         nohup java -jar my-java-app.jar > app.log 2>&1 &
         sleep 5
         tail -n 20 app.log
