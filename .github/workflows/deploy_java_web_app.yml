@@ -18,9 +18,9 @@ jobs:
 
     - name: Install Java and Gradle
       run: |
-          sudo yum update -y
-          sudo yum install git
-          sudo yum install java-17-amazon-corretto-devel
+          sudo apt update -y
+          sudo apt install git
+          sudo apt install java-17-amazon-corretto-devel
           wget https://services.gradle.org/distributions/gradle-8.10.2-bin.zip -P /tmp
           sudo unzip -d /opt/ /tmp/gradle-8.10.2-bin.zip
           sudo ln -s /opt/gradle-8.10.2 /opt/gradle
