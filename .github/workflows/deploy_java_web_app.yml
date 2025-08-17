@@ -25,7 +25,6 @@ jobs:
           wget https://services.gradle.org/distributions/gradle-7.6.4-bin.zip -P /tmp
           sudo unzip -d /opt/ /tmp/gradle-7.6.4-bin.zip
           sudo ln -sfn /opt/gradle-7.6.4 /opt/gradle
-          source /etc/profile.d/gradle.sh
           echo "export PATH=\$PATH:/opt/gradle/bin" | sudo tee /etc/profile.d/gradle.sh
           sudo chmod +x /etc/profile.d/gradle.sh
           source /etc/profile.d/gradle.sh
