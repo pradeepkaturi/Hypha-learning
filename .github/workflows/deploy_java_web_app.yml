@@ -43,7 +43,8 @@ jobs:
         sudo chmod +x /etc/profile.d/gradle.sh
         source /etc/profile.d/gradle.sh
         gradle -v
-        pwd
+        ls -ltr
+        grep -r java_demo_app
         cd /home/ec2-user/Hypha-learning/java_demo_app
         gradle clean build
         ls -ltr
