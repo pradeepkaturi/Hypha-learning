@@ -20,7 +20,7 @@ jobs:
       run: |
           sudo apt update -y
           sudo apt install git
-          sudo apt install java-17-amazon-corretto-devel
+          sudo apt install -y openjdk-17-jdk
           wget https://services.gradle.org/distributions/gradle-8.10.2-bin.zip -P /tmp
           sudo unzip -d /opt/ /tmp/gradle-8.10.2-bin.zip
           sudo ln -s /opt/gradle-8.10.2 /opt/gradle
