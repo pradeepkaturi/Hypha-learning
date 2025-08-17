@@ -25,11 +25,12 @@ jobs:
     - name: Deploy to EC2
       env:
         EC2_HOST: 44.220.162.146
-        EC2_USER: EC2-USER
+        EC2_USER: ec2-user
       run: |
         pwd
         ls -ltr
         chmod 400 ec2-key.pem
+        ls -ltr
         ssh -o StrictHostKeyChecking=no -i "ec2-key.pem" $EC2_USER@$EC2_HOST << 'EOF'
         sudo yum update -y
         sudo yum install git
