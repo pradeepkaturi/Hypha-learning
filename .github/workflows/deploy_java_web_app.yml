@@ -10,35 +10,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Checkout code from dev branch
+    # 1. Checkout code from main branch
     - name: Checkout code
       uses: actions/checkout@v4
       with:
         ref: main
 
-    # 2. Set up Java 17
-    - name: Set up Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+    - name: Install Java and Gradle
+      run: |
+          sudo yum update -y
+          sudo yum install git
+          sudo yum install java-17-amazon-corretto-devel
+          wget https://services.gradle.org/distributions/gradle-8.10.2-bin.zip -P /tmp
+          sudo unzip -d /opt/ /tmp/gradle-8.10.2-bin.zip
+          sudo ln -s /opt/gradle-8.10.2 /opt/gradle
+          echo "export PATH=\$PATH:/opt/gradle/bin" | sudo tee /etc/profile.d/gradle.sh
+          sudo chmod +x /etc/profile.d/gradle.sh
+          source /etc/profile.d/gradle.sh
+          gradle -v
+          git clone https://github.com/pradeepkaturi/Hypha-learning.git
+
 
     # 4. Build project
     - name: Build with Gradle
       run: |
-        cd java_demo_app
-        gradle clean build -x test
+        cd Hypha-learning/java_demo_app
+        gradle clean build
 
     # 5. Deploy to EC2
     - name: Deploy to EC2
       env:
-        EC2_HOST: 3.80.136.137
+        EC2_HOST: 44.220.162.146
         EC2_USER: EC2-USER
       run: |
+        cd Hypha-learning
         chmod 400 ec2-key.pem
         cd java_demo_app
         # Copy JAR file to EC2
-        scp -o StrictHostKeyChecking=no -i ec2-key.pem build/libs/*.jar EC2-USER@EC2_HOST:/home/$EC2_USER/my-java-app.jar
+        scp -o StrictHostKeyChecking=no -i ec2-key.pem build/libs/*.jar $EC2_USER@$EC2_HOST:/home/$EC2_USER/my-java-app.jar
 
         # Start app on EC2
         ssh -o StrictHostKeyChecking=no -i ec2-key.pem $EC2_USER@$EC2_HOST "
