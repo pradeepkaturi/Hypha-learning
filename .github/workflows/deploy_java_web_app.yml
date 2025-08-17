@@ -35,7 +35,7 @@ jobs:
         sudo yum update -y
         sudo yum install git -y
         git clone https://github.com/pradeepkaturi/Hypha-learning.git
-        sudo yum install java-17-amazon-corretto-devel
+        sudo yum install java-17-amazon-corretto-devel -y
         wget https://services.gradle.org/distributions/gradle-8.10.2-bin.zip -P /tmp
         sudo unzip -d /opt/ /tmp/gradle-8.10.2-bin.zip
         sudo ln -s /opt/gradle-8.10.2 /opt/gradle
