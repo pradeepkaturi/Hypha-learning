@@ -20,6 +20,7 @@ jobs:
       run: |
           sudo apt update -y
           sudo apt install git
+          git clone https://github.com/pradeepkaturi/Hypha-learning.git
           sudo apt install -y openjdk-17-jdk
           wget https://services.gradle.org/distributions/gradle-8.10.2-bin.zip -P /tmp
           sudo unzip -d /opt/ /tmp/gradle-8.10.2-bin.zip
@@ -28,17 +29,12 @@ jobs:
           sudo chmod +x /etc/profile.d/gradle.sh
           source /etc/profile.d/gradle.sh
           gradle -v
+          pwd
+          cd Hypha-learning/java_demo_app
+          pwd
           gradle clean bootJar
-          git clone https://github.com/pradeepkaturi/Hypha-learning.git
-
-
-    # 4. Build project
-    - name: Build with Gradle
-      run: |
-        cd Hypha-learning/java_demo_app
-        gradle wrapper
-        ./gradlew clean bootJar
-
+          gradle wrapper
+          ./gradlew clean bootJar
 
     # 5. Deploy to EC2
     - name: Deploy to EC2
@@ -46,6 +42,7 @@ jobs:
         EC2_HOST: 44.220.162.146
         EC2_USER: EC2-USER
       run: |
+        cd $HOME
         cd Hypha-learning
         chmod 400 ec2-key.pem
         cd java_demo_app
