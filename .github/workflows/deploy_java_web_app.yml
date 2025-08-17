@@ -28,7 +28,7 @@ jobs:
         EC2_USER: EC2-USER
       run: |
         pwd
-        cd /home/runner/Hypha-learning
+        ls -ltr
         chmod 400 ec2-key.pem
         ssh -o StrictHostKeyChecking=no -i "ec2-key.pem" $EC2_USER@$EC2_HOST << 'EOF'
         sudo yum update -y
