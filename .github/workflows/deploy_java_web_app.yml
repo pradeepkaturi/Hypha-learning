@@ -35,7 +35,8 @@ jobs:
     - name: Build with Gradle
       run: |
         cd Hypha-learning/java_demo_app
-        gradle clean build
+        ./gradlew clean build
+
 
     # 5. Deploy to EC2
     - name: Deploy to EC2
