@@ -32,23 +32,12 @@ jobs:
         chmod 400 ec2-key.pem
         ls -ltr
         ssh -o StrictHostKeyChecking=no -i "ec2-key.pem" $EC2_USER@$EC2_HOST << 'EOF'
-        sudo yum update -y
-        sudo yum install git -y
-        git clone https://github.com/pradeepkaturi/Hypha-learning.git
-        sudo yum install java-17-amazon-corretto-devel -y
-        wget https://services.gradle.org/distributions/gradle-8.10.2-bin.zip -P /tmp
-        sudo unzip -d /opt/ /tmp/gradle-8.10.2-bin.zip
-        sudo ln -s /opt/gradle-8.10.2 /opt/gradle
-        echo "export PATH=\$PATH:/opt/gradle/bin" | sudo tee /etc/profile.d/gradle.sh
-        sudo chmod +x /etc/profile.d/gradle.sh
-        source /etc/profile.d/gradle.sh
         gradle -v
         ls -ltr
-        grep -r java_demo_app
         cd /home/ec2-user/Hypha-learning/java_demo_app
         gradle clean build
         ls -ltr
-        cd build/libs
+        cd /home/ec2-user/Hypha-learning/java_demo_app/build/libs
         nohup java -jar my-java-app.jar > app.log 2>&1 &
         sleep 5
         tail -n 20 app.log
