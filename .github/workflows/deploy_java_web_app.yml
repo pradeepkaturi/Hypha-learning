@@ -28,6 +28,7 @@ jobs:
           sudo chmod +x /etc/profile.d/gradle.sh
           source /etc/profile.d/gradle.sh
           gradle -v
+          gradle clean bootJar
           git clone https://github.com/pradeepkaturi/Hypha-learning.git
 
 
@@ -35,7 +36,8 @@ jobs:
     - name: Build with Gradle
       run: |
         cd Hypha-learning/java_demo_app
-        ./gradlew clean build
+        gradle wrapper
+        ./gradlew clean bootJar
 
 
     # 5. Deploy to EC2
