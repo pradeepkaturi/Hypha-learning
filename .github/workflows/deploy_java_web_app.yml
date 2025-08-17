@@ -18,23 +18,8 @@ jobs:
 
     - name: Install Java and Gradle
       run: |
-          sudo apt update -y
-          sudo apt install git
-          git clone https://github.com/pradeepkaturi/Hypha-learning.git
-          sudo apt install -y openjdk-17-jdk
-          wget https://services.gradle.org/distributions/gradle-7.6.4-bin.zip -P /tmp
-          sudo unzip -d /opt/ /tmp/gradle-7.6.4-bin.zip
-          sudo ln -sfn /opt/gradle-7.6.4 /opt/gradle
-          echo "export PATH=\$PATH:/opt/gradle/bin" | sudo tee /etc/profile.d/gradle.sh
-          sudo chmod +x /etc/profile.d/gradle.sh
-          source /etc/profile.d/gradle.sh
-          gradle -v
-          pwd
-          cd Hypha-learning/java_demo_app
-          pwd
-          gradle clean bootJar
-          gradle wrapper
-          ./gradlew clean bootJar
+        sudo apt install git
+        git clone https://github.com/pradeepkaturi/Hypha-learning.git
 
     # 5. Deploy to EC2
     - name: Deploy to EC2
@@ -45,13 +30,20 @@ jobs:
         cd $HOME
         cd Hypha-learning
         chmod 400 ec2-key.pem
-        cd java_demo_app
-        # Copy JAR file to EC2
-        scp -o StrictHostKeyChecking=no -i ec2-key.pem build/libs/*.jar $EC2_USER@$EC2_HOST:/home/$EC2_USER/my-java-app.jar
-
-        # Start app on EC2
-        ssh -o StrictHostKeyChecking=no -i ec2-key.pem $EC2_USER@$EC2_HOST "
-          nohup java -jar /home/$EC2_USER/my-java-app.jar > app.log 2>&1 &
-          sleep 5
-          tail -n 20 app.log
-        "
+        ssh -o StrictHostKeyChecking=no -i "ec2-key.pem" $EC2_USER@$EC2_HOST << 'EOF'
+        sudo yum update -y
+        sudo yum install git
+        git clone https://github.com/pradeepkaturi/Hypha-learning.git
+        sudo yum install java-17-amazon-corretto-devel
+        wget https://services.gradle.org/distributions/gradle-8.10.2-bin.zip -P /tmp
+        sudo unzip -d /opt/ /tmp/gradle-8.10.2-bin.zip
+        sudo ln -s /opt/gradle-8.10.2 /opt/gradle
+        echo "export PATH=\$PATH:/opt/gradle/bin" | sudo tee /etc/profile.d/gradle.sh
+        sudo chmod +x /etc/profile.d/gradle.sh
+        source /etc/profile.d/gradle.sh
+        gradle -v
+        cd /home/ec2-user/Hypha-learning/java_demo_app/build/libs
+        nohup java -jar my-java-app.jar > app.log 2>&1 &
+        sleep 5
+        tail -n 20 app.log
+        EOF
