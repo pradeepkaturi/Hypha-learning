@@ -36,6 +36,8 @@ jobs:
         ls -ltr
         ./gradlew build 
         ls -ltr
+        cd build/libs
+        ls -ltr
 
   build_docker_mage:
     runs-on: ubuntu-latest
