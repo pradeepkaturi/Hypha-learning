@@ -27,8 +27,9 @@ jobs:
         cd java_demo_app
         ls -ltr
         gradle -v
+        gradle wrapper
         ls -ltr
-        gradle run
+        ./gradlew build 
         ls -ltr
 
   build_docker_mage:
