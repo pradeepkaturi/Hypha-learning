@@ -38,6 +38,7 @@ jobs:
         ls -ltr
         cd build/libs
         ls -ltr
+        pwd
 
     - name: Build Image
       run: |
