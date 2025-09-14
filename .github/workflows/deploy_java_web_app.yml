@@ -1,4 +1,4 @@
-name: Build and Deploy to EC2
+name: Build Java Demo App and Upload to Docker Hub
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,24 +21,24 @@ jobs:
         sudo apt install git
         git clone https://github.com/pradeepkaturi/Hypha-learning.git
 
-    # 5. Deploy to EC2
-    - name: Deploy to EC2
-      env:
-        EC2_HOST: 44.220.162.146
-        EC2_USER: ec2-user
-      run: |
-        pwd
-        ls -ltr
-        chmod 400 ec2-key.pem
-        ls -ltr
-        ssh -o StrictHostKeyChecking=no -i "ec2-key.pem" $EC2_USER@$EC2_HOST << 'EOF'
-        gradle -v
-        ls -ltr
-        cd /home/ec2-user/Hypha-learning/java_demo_app
-        gradle clean build
-        ls -ltr
-        cd /home/ec2-user/Hypha-learning/java_demo_app/build/libs
-        nohup java -jar my-java-app.jar > app.log 2>&1 &
-        sleep 5
-        tail -n 20 app.log
-        EOF
+  build_docker_mage:
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Build Image
+        run: |
+          build -t demo_java_app:latest .
+      
+      - name: Login to Docker hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ GIT_HUB_USER_NAME }}
+          password: ${{ GIT_HUB_PASSWORD }}
+      
+      - name: Push image to Docker Hub
+        run: docker push pradeepkaturi/practice:v1
