@@ -41,4 +41,4 @@ jobs:
           password: ${{ GIT_HUB_PASSWORD }}
       
       - name: Push image to Docker Hub
-        run: docker push pradeepkaturi/practice:v1
+        run: docker push pradeepkaturi/practice:latest
