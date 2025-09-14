@@ -39,25 +39,17 @@ jobs:
         cd build/libs
         ls -ltr
 
-  build_docker_mage:
-    runs-on: ubuntu-latest
-    needs:  build
-  
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: main
+    - name: Build Image
+      run: |
+        docker build -t practice:latest .
+         ls -ltr
+        pwd
 
-      - name: Build Image
-        run: |
-          docker build -t practice:latest .
-
-      - name: Login to Docker hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.GIT_HUB_USER_NAME }}
-          password: ${{ secrets.GIT_HUB_PASSWORD }}
+    - name: Login to Docker hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.GIT_HUB_USER_NAME }}
+        password: ${{ secrets.GIT_HUB_PASSWORD }}
         
-      - name: Push image to Docker Hub
-        run: docker push pradeepkaturi/practice:latest
+    - name: Push image to Docker Hub
+      run: docker push pradeepkaturi/practice:latest
