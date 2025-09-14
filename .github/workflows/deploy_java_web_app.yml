@@ -27,7 +27,6 @@ jobs:
         cd java_demo_app
         ls -ltr
         gradle -v
-        gradle init
         ./gradlew clean build
         ls -ltr        
 
