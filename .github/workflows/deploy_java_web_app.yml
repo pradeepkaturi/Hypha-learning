@@ -27,7 +27,13 @@ jobs:
         cd java_demo_app
         ls -ltr
         gradle -v
-        sh build.sh
+        ls -ltr
+        wget https://services.gradle.org/distributions/gradle-8.10.2-bin.zip -P /tmp
+        sudo unzip -d /opt/ /tmp/gradle-8.10.2-bin.zip
+        sudo ln -s /opt/gradle-8.10.2 /opt/gradle
+        echo "export PATH=\$PATH:/opt/gradle/bin" | sudo tee /etc/profile.d/gradle.sh
+        sudo chmod +x /etc/profile.d/gradle.sh
+        source /etc/profile.d/gradle.sh
         ls -ltr
 
   build_docker_mage:
