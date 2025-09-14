@@ -27,8 +27,8 @@ jobs:
         cd java_demo_app
         ls -ltr
         gradle -v
-        ./gradlew clean build
-        ls -ltr        
+        sh build.sh
+        ls -ltr
 
   build_docker_mage:
     runs-on: ubuntu-latest
