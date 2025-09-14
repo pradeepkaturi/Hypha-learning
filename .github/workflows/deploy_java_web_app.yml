@@ -44,7 +44,6 @@ jobs:
       run: |
         ls -ltr
         pwd
-        cd java_demo_app
         docker build -t practice:latest .
          ls -ltr
         pwd
