@@ -37,8 +37,11 @@ jobs:
       - name: Login to Docker hub
         uses: docker/login-action@v1
         with:
-          username: ${{ GIT_HUB_USER_NAME }}
-          password: ${{ GIT_HUB_PASSWORD }}
-      
+          username: $MY_GIT_HUB_USER_NAME
+          password: $MY_GIT_HUB_PASSWORD
+        env:
+          MY_GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+          MY_GIT_HUB_PASSWORD: ${{ secrets.GIT_HUB_PASSWORD }}
+          
       - name: Push image to Docker Hub
         run: docker push pradeepkaturi/practice:latest
