@@ -24,7 +24,9 @@ jobs:
     - name: Build App using Grade
       run: |
         ls -ltr
+        cd java_demo_app
         gradle -v
+        gradle init
         gradle clean build
         ls -ltr        
 
