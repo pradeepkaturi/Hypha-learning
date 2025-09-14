@@ -21,6 +21,11 @@ jobs:
         sudo apt install git
         git clone https://github.com/pradeepkaturi/Hypha-learning.git
         
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: 8.10
+
     - name: Build App using Grade
       run: |
         ls -ltr
